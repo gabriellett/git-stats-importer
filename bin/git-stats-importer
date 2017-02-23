@@ -39,9 +39,7 @@ var findReposOpt = new Clp.Option(["f", "find-repos"], "If this option is provid
     }, [findReposOpt, deleteOpt, emailOpt])
   ;
 
-if (!emailOpt.value) {
-    return Logger.log(new Error("Cannot find any emails. Specify them using -e"));
-} else {
+if (emailOpt.value) {
     emailOpt.value = emailOpt.value.split(",").map(function (c) {
         return c.trim();
     });
@@ -66,7 +64,7 @@ importer.on("gitFolder", function (dir) {
 
 // Listen for import
 importer.on("import", function (data) {
-    Logger.log([data.path, data.commit.hash].join(":"), "import");
+    Logger.log([data.path, data.commit.hash, data.commit.author.email].join(":"), "import");
 });
 
 // Listen for delete
